@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
 public class RepositoryStubService {
@@ -25,7 +26,7 @@ public class RepositoryStubService {
     }
 
     public List<User> findAll() {
-        return List.copyOf(userRepository.values());
+        return userRepository.values().stream().collect(Collectors.toList());
     }
 
     public User findUserById(Long id) {

@@ -23,6 +23,11 @@ public class UserRestController {
     @Autowired
     private RepositoryStubService repositoryService;
 
+    @GetMapping(path="/status")
+    public String getStatus(){
+        return "Ok";
+    }
+
    // 2
     @GetMapping(path = "/users")
     public List<User> listAllUsers() {

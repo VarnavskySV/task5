@@ -6,6 +6,7 @@ import com.example.springrest.service.RepositoryStubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class UserRestController {
 
     //3
     @GetMapping(path = "/users/{id}")
-    public User getUserById(@PathParam() Long id) {
+    public User getUserById(@PathVariable(name="id") Long id) {
         User user = repositoryService.findUserById(id);
         if (user == null) {
             throw new UserNotFoundException(id);
@@ -46,7 +47,7 @@ public class UserRestController {
 
     //7
     @PutMapping(path = "/users/{id}")
-    public User updateUser(@PathParam Long id, @RequestBody User updatedUser) {
+    public User updateUser(@PathVariable(name="id") Long id, @RequestBody User updatedUser) {
         User userToUpdate = repositoryService.findUserById(id);
         if (userToUpdate != null) {
             userToUpdate.setFirstName(updatedUser.getFirstName());
@@ -62,7 +63,7 @@ public class UserRestController {
 
    // 10
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathParam Long id) {
+    public void deleteUser(@PathVariable(name="id") Long id) {
         repositoryService.deleteById(id);
     }
 

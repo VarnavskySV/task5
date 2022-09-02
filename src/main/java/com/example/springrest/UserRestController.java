@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -27,7 +30,7 @@ public class UserRestController {
 
     //3
     @GetMapping(path = "/users/{id}")
-    public User getUserById(/*4*/ Long id) {
+    public User getUserById(@PathParam() Long id) {
         User user = repositoryService.findUserById(id);
         if (user == null) {
             throw new UserNotFoundException(id);
@@ -37,13 +40,13 @@ public class UserRestController {
 
     //5
     @PostMapping(path = "/users")
-    public User createUser(/* 6 */ User newUser) {
+    public User createUser(@RequestBody User newUser) {
         return repositoryService.saveUser(newUser);
     }
 
     //7
     @PutMapping(path = "/users/{id}")
-    public User updateUser(/* 8 */ Long id, /* 9 */ User updatedUser) {
+    public User updateUser(@PathParam Long id, @RequestBody User updatedUser) {
         User userToUpdate = repositoryService.findUserById(id);
         if (userToUpdate != null) {
             userToUpdate.setFirstName(updatedUser.getFirstName());
@@ -59,7 +62,7 @@ public class UserRestController {
 
    // 10
     @DeleteMapping("/users/{id}")
-    public void deleteUser(/* 11 */ Long id) {
+    public void deleteUser(@PathParam Long id) {
         repositoryService.deleteById(id);
     }
 

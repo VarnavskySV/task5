@@ -2,6 +2,7 @@ package com.example.springrest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +15,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         http.authorizeHttpRequests((httpz)->
-                        httpz.antMatchers("/users*").hasRole("ROLE1")
-                                .antMatchers("/users/*").hasRole("ROLE2")
+                        httpz.antMatchers(HttpMethod.GET, "/users**").hasAnyRole("ROLE1","ROLE2")
+                             .antMatchers(HttpMethod.POST, "/users/*").hasRole("ROLE1")
+                             .antMatchers(HttpMethod.PUT, "/users/*").hasRole("ROLE1")
+                             .antMatchers(HttpMethod.DELETE, "/users/*").hasRole("ROLE1")
         ).httpBasic();
 
         return http.build();
